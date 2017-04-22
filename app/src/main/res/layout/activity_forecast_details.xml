@@ -8,16 +8,10 @@
     android:background="@drawable/gradient"
     tools:context="com.twevent.xtrememobileweatherapp.ForecastDetailsActivity">
 
-    <TextView android:id="@+id/detailsCityName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        />
 
     <FrameLayout android:id="@+id/forecast_container"
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
-                 android:layout_below="@+id/detailsCityName"
         />
 
 </RelativeLayout>

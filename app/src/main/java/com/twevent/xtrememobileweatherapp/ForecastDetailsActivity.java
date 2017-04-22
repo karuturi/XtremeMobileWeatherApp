@@ -12,9 +12,6 @@ public class ForecastDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forecast_details);
-        String cityName = getIntent().getStringExtra("cityName");
-        TextView cityTextView = (TextView) findViewById(R.id.detailsCityName);
-        cityTextView.setText(cityName);
         startForecastFragment();
     }
 

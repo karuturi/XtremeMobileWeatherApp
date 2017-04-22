@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ForecastDetailsActivity.class);
-                intent.putExtra("cityName", currentWeather.getName());
                 startActivity(intent);
             }
         });
