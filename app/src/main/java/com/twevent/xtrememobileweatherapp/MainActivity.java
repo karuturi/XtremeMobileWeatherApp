@@ -2,16 +2,17 @@ package com.twevent.xtrememobileweatherapp;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.twevent.xtrememobileweatherapp.asynctasks.AsyncWeatherForecastTask;
+import com.twevent.xtrememobileweatherapp.listeners.WeatherResponseListener;
 import com.twevent.xtrememobileweatherapp.model.Weather;
-import com.twevent.xtrememobileweatherapp.model.WeatherForecast;
 import com.twevent.xtrememobileweatherapp.model.WeatherForecastResponse;
 import com.twevent.xtrememobileweatherapp.presenter.WeatherPresenter;
 
@@ -22,7 +23,7 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements WeatherResponseListener {
 
     private Weather currentWeather = null;
     private Map<String, Integer> weatherStatusImageMap = new HashMap<>();
@@ -52,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWeatherStatusImageMap() {
-        weatherStatusImageMap.put("light rain",R.drawable.rainy_main);
-        weatherStatusImageMap.put("moderate rain",R.drawable.sun);
-        weatherStatusImageMap.put("clear sky",R.drawable.sunny_main);
+        weatherStatusImageMap.put("light rain", R.drawable.rainy_main);
+        weatherStatusImageMap.put("moderate rain", R.drawable.sun);
+        weatherStatusImageMap.put("clear sky", R.drawable.sunny_main);
     }
 
     private void renderWeather() {
@@ -76,15 +77,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showForecastDetails(View view) {
-        readForecastDataFromFile();
-        Intent intent = new Intent(this, DetailWeatherActivity.class);
-        Gson gson = new Gson();
-        String weatherData = gson.toJson(weatherForecast, WeatherForecastResponse.class);
-        intent.putExtra("weatherData", weatherData);
-        startActivity(intent);
+        String cityName = "Hyderabad";
+        String apikey = "ebbc66b823072502c81339f5b0b9b042";
+        String weatherUrl = String.format("http://api.openweathermap.org/data/2.5/forecast/daily?q=%s&units=metric&appid=%s", cityName, apikey);
+        AsyncWeatherForecastTask task = new AsyncWeatherForecastTask(this);
+        task.execute(weatherUrl);
     }
 
-    private void readForecastDataFromFile(){
+    private void readForecastDataFromFile() {
         AssetManager assetManager = getAssets();
         try {
             InputStream inputStream = assetManager.open("city_forecast.json");
@@ -95,5 +95,17 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void weatherForecastFailed() {
+
+    }
+
+    @Override
+    public void weatherForecastReceived(String weatherData) {
+        Intent intent = new Intent(this, DetailWeatherActivity.class);
+        intent.putExtra("weatherData", weatherData);
+        startActivity(intent);
     }
 }
