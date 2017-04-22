@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,18 +9,85 @@
     tools:context="com.twevent.xtrememobileweatherapp.MainActivity">
 
 
-    <include
+    <include android:id="@+id/toolbarLayout"
         layout="@layout/custom_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <TextView android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@+id/toolbarLayout"
+        android:layout_centerHorizontal="true"
+        android:text="Serlingampally, Hyderabad"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        />
+    <TextView android:id="@+id/lastUpdateTimeText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/locationText"
+              android:layout_centerHorizontal="true"
+              android:text="Last Update: 3pm, IST"
+              android:textAppearance="@android:style/TextAppearance.Large"
+        />
+    <TextView android:id="@+id/lastUpdateLocationText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/lastUpdateTimeText"
+              android:layout_centerHorizontal="true"
+              android:text="Yesterday"
+              android:textAppearance="@android:style/TextAppearance.Large"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView android:id="@+id/weatherImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/clouds"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/lastUpdateLocationText"
+        />
+
+    <TextView android:id="@+id/weatherText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Cloudy"
+              android:textAppearance="@android:style/TextAppearance.Large"
+              android:layout_alignStart="@+id/locationText"
+              android:layout_below="@+id/weatherImage"/>
+    <TextView android:id="@+id/weatherdegree"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="23"
+              android:textAppearance="@android:style/TextAppearance.Large"
+              android:textSize="100dp"
+              android:layout_below="@+id/weatherText"
+              android:layout_toEndOf="@+id/weatherText"/>
+    <TextView android:id="@+id/minmaxdegree"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/weatherdegree"
+              android:layout_centerHorizontal="true"
+              android:text="20 43"
+              android:textAppearance="@android:style/TextAppearance.Large"
+        />
+    <TextView android:id="@+id/weatherMessage"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/minmaxdegree"
+              android:text="Enjoy the clouds, await for splashes"
+              android:textAppearance="@android:style/TextAppearance.Medium"
+              android:layout_alignStart="@+id/locationText"
+        />
+
+
+    <Button android:id="@+id/forecastButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weatherMessage"
+        android:layout_centerHorizontal="true"
+        android:text="Forecast"
+        />
+
+
+
+</RelativeLayout>
