@@ -101,13 +101,4 @@
     android:layout_below="@+id/quote"
     android:onClick="showForecastDetails"/>
 
-  <TextView android:id="@+id/favoriteButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/add_as_favorite"
-      android:layout_marginStart="@dimen/smallPadding"
-      android:layout_centerHorizontal="true"
-      android:layout_below="@+id/forecastButton"
-      />
-
 </RelativeLayout>

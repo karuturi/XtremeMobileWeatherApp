@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements WeatherForecastRe
         setFavoriteButtonListener();
         boolean favoriteSaved = sharedPreferences.getBoolean("favoriteSaved",false);
         if(favoriteSaved) {
-            showFavoriteSavedImage();
+            showFavoriteSavedImage((ImageView) findViewById(R.id.favoriteSaved));
         }
     }
 
@@ -73,37 +73,33 @@ public class MainActivity extends AppCompatActivity implements WeatherForecastRe
     }
 
     private void setFavoriteButtonListener() {
-        TextView favoriteButton = (TextView) findViewById(R.id.favoriteButton);
+        ImageView favoriteButton = (ImageView) findViewById(R.id.favoriteSaved);
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView textView = (TextView) v;
+                ImageView view = (ImageView)v;
                 boolean favoriteSaved = sharedPreferences.getBoolean("favoriteSaved",false);
                 if(!favoriteSaved) {
                     saveFavorite();
-                    showFavoriteSavedImage();
-                    textView.setText(R.string.remove_favorite);
+                    showFavoriteSavedImage(view);
                 } else {
                     removeFavorite();
-                    showFavoriteNotSavedImage();
-                    textView.setText(R.string.add_as_favorite);
+                    showFavoriteNotSavedImage(view);
                 }
             }
         });
     }
 
-    private void showFavoriteNotSavedImage() {
-        ImageView favoriteSaved = (ImageView) findViewById(R.id.favoriteSaved);
-        favoriteSaved.setImageResource(android.R.drawable.btn_star_big_off);
+    private void showFavoriteNotSavedImage(ImageView view) {
+        view.setImageResource(android.R.drawable.btn_star_big_off);
     }
 
     private void removeFavorite() {
         sharedPreferences.edit().putBoolean("favoriteSaved", false).apply();
     }
 
-    private void showFavoriteSavedImage() {
-        ImageView favoriteSaved = (ImageView) findViewById(R.id.favoriteSaved);
-        favoriteSaved.setImageResource(android.R.drawable.btn_star_big_on);
+    private void showFavoriteSavedImage(ImageView view) {
+        view.setImageResource(android.R.drawable.btn_star_big_on);
     }
 
     private void saveFavorite() {
