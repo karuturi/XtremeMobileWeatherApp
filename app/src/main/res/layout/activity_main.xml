@@ -17,6 +17,16 @@
     android:src="@android:drawable/ic_menu_search"
     android:contentDescription="@string/search_city"/>
 
+  <ImageView android:id="@+id/favoriteSaved"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:padding="10dp"
+      android:layout_marginRight="30dp"
+      android:layout_toLeftOf="@+id/searchImageView"
+      android:src="@android:drawable/btn_star_big_off"
+      />
+
   <TextView
     android:id="@+id/cityName"
     android:layout_width="match_parent"
@@ -90,5 +100,14 @@
     android:layout_centerHorizontal="true"
     android:layout_below="@+id/quote"
     android:onClick="showForecastDetails"/>
+
+  <TextView android:id="@+id/favoriteButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/add_as_favorite"
+      android:layout_marginStart="@dimen/smallPadding"
+      android:layout_centerHorizontal="true"
+      android:layout_below="@+id/forecastButton"
+      />
 
 </RelativeLayout>

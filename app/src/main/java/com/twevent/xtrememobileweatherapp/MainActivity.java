@@ -1,6 +1,7 @@
 package com.twevent.xtrememobileweatherapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +30,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements WeatherForecastResponseListener, CurrentWeatherResponseListener {
 
     private static final int SEARCH_CODE = 9999;
+    private static final String APP_PREFS = "app_prefs";
     private Weather currentWeather = null;
     private static final Map<String, Integer> weatherStatusImageMap;
+    private SharedPreferences sharedPreferences;
 
     static {
         weatherStatusImageMap = new HashMap<>();
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements WeatherForecastRe
         Toolbar toolbar = (Toolbar) findViewById(R.id.custom_toolbar);
         setSupportActionBar(toolbar);
         loadWeatherFromFile();
-
+        loadSharePreferences();
         View searchImageView = findViewById(R.id.searchImageView);
         searchImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +61,53 @@ public class MainActivity extends AppCompatActivity implements WeatherForecastRe
                 launchSearchActivity();
             }
         });
+        setFavoriteButtonListener();
+        boolean favoriteSaved = sharedPreferences.getBoolean("favoriteSaved",false);
+        if(favoriteSaved) {
+            showFavoriteSavedImage();
+        }
+    }
+
+    private void loadSharePreferences() {
+        sharedPreferences = getSharedPreferences(APP_PREFS, MODE_PRIVATE);
+    }
+
+    private void setFavoriteButtonListener() {
+        TextView favoriteButton = (TextView) findViewById(R.id.favoriteButton);
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView textView = (TextView) v;
+                boolean favoriteSaved = sharedPreferences.getBoolean("favoriteSaved",false);
+                if(!favoriteSaved) {
+                    saveFavorite();
+                    showFavoriteSavedImage();
+                    textView.setText(R.string.remove_favorite);
+                } else {
+                    removeFavorite();
+                    showFavoriteNotSavedImage();
+                    textView.setText(R.string.add_as_favorite);
+                }
+            }
+        });
+    }
+
+    private void showFavoriteNotSavedImage() {
+        ImageView favoriteSaved = (ImageView) findViewById(R.id.favoriteSaved);
+        favoriteSaved.setImageResource(android.R.drawable.btn_star_big_off);
+    }
+
+    private void removeFavorite() {
+        sharedPreferences.edit().putBoolean("favoriteSaved", false).apply();
+    }
+
+    private void showFavoriteSavedImage() {
+        ImageView favoriteSaved = (ImageView) findViewById(R.id.favoriteSaved);
+        favoriteSaved.setImageResource(android.R.drawable.btn_star_big_on);
+    }
+
+    private void saveFavorite() {
+        sharedPreferences.edit().putBoolean("favoriteSaved", true).apply();
     }
 
     private void loadWeatherFromFile() {
